@@ -1,55 +1,52 @@
-// header.dataset.color
+/* Personal Notes 
+// you need to convert the object in user_data into string first via JSON.stringify(data), then convert it back into object using JSON.parse()
 
-// var header = document.querySelector('#header');
-// var subHeader = document.querySelector('#sub-header');
+//var userData = JSON.parse(localStorage.getItem("user_data"));
+//console.log(userData);
+*/
 
-// <h1 id="header" data-color="red">Header Text</h1>
-// console.log(header.dataset.color);
-// console.log(header.getAttribute('data-color'));
+var questionWrap = document.querySelector("#questions"); // questions div
+var questionTitle = document.querySelector("#question-title");
 
-// header.getAttribute('data-color')
+// start-screen div
+var startScreen = document.querySelector("#start-screen");
 
-// subHeader.setAttribute('data-food', 'grape');
-// console.log(subHeader.dataset);
-
-// localStorage.setItem('user_data', data);
-// 21:58
-
-// ************* LocalStorage Notes ****************
-// key note: local storage stores items as a string
-
-// set items in local storage
-// localStorage.setItem('color', 'blue');
-// localStorage.setItem('user_data', JSON.stringify(data));
-
-// retrieve items , this can also be stored in a variable
-// localStorage.getItem('color');
-// var color = localStorage.getItem('color');
-
-// non-primitve value types
-
-// var userData = JSON.parse(localStorage.getItem('user_data'))
-
-//localStorage.setItem("color", "orange");
-
-var data = {
-  name: "JD",
-  age: 42,
-};
-//localStorage.setItem("user_data", data);
-
-//var userData = localStorage.getItem("user_data");
-
-//localStorage.setItem("user_data", JSON.stringify(data));
-
-// key note: you need to convert the object in user_data into string first via JSON.stringify(data), then convert it back into object using JSON.parse().
-var userData = JSON.parse(localStorage.getItem("user_data"));
-
-console.log(userData);
-
-// button class = choice
+// choices div
+var choicesOutput = document.querySelector("#choices");
 
 function startQuiz() {
-  // some code
+  var currentQuestion = questions[questionTracker];
+  var choices = currentQuestion.choices;
+  questionTitle.innerText = currentQuestion.title;
+  console.log(currentQuestion);
+
+  choicesOutput.innerHTML = "";
+  for (var i = 0; i < choices.length; i++) {
+    var choice = choices[i];
+    var isCorrect = currentQuestion.answer === choice;
+
+    choicesOutput.insertAdjacentHTML(
+      "beforeend",
+      `
+    <button data-correct=${isCorrect}>${choice}</button>`
+    );
+  }
+
+  // shows the quiz
+  questionWrap.classList.remove("hide");
+  // hide the start-screen
+  //startScreen.classList.add("hide");
 }
-startQuiz();
+
+function checkAnswer(event) {
+  console.log(event.target);
+}
+
+choicesOutput.addEventListener("click", checkAnswer);
+
+var startBtn = document.querySelector("#start");
+
+startBtn.addEventListener("click", function () {
+  console.log("test");
+  startQuiz();
+});
