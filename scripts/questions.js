@@ -22,8 +22,14 @@ var questions = [
   },
   {
     title: "What will the following code do: while(;true;) { }",
-    choices: ["return true", "throw an error", "infinite loop", "nothing"],
-    answer: "infinite loop",
+    choices: [
+      "return true",
+      "throw an error",
+      "infinite loop",
+      "nothing",
+      "infinite loop & nothing",
+    ],
+    answer: "infinite loop & nothing",
   },
 ];
 
