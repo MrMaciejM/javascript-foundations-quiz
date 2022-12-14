@@ -10,7 +10,7 @@ var questions = [
     answer: "no",
   },
   {
-    title: "Can you update HTML and CSS content using JavaScript?",
+    title: "Can you modify HTML and CSS content using JavaScript?",
     choices: ["yes", "no"],
     answer: "yes",
   },
@@ -33,4 +33,4 @@ var questions = [
   },
 ];
 
-var questionTracker = 0;
+var counter = 0;
