@@ -33,4 +33,4 @@ var questions = [
   },
 ];
 
-var counter = 4;
+var counter = 0;

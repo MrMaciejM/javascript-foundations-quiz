@@ -39,7 +39,32 @@ startBtn.addEventListener("click", function (event) {
 
 // check answers and track questions
 function checkAndTrack() {
-  //
+  // will loop in startQuiz
+  // <button data-correct="false">array</button>
+  // prettier-ignore
+  choicesOutput.addEventListener("click", function (event) {
+      //
+      //console.log("hello");
+      var btnClick = event.target.textContent;
+      var isCorrect = questions[counter]["answer"];
+        if(btnClick === isCorrect) {
+          // add +5 seconds to timer, increment score and counter
+          console.log("is correct"); 
+          gameTime += 5; 
+          counter++;
+          score += 1;
+          console.log(score); 
+
+        }
+        else if(btnClick !== isCorrect) {
+          console.log("is NOT correct"); 
+          gameTime -= 5; 
+          counter++;
+          score -= 1;
+          console.log(score); 
+
+        }
+    });
 }
 
 // var counter = 0  // this var counts the questions
@@ -61,3 +86,4 @@ function startQuiz() {
   }
 }
 startQuiz();
+checkAndTrack();
