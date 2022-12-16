@@ -33,30 +33,31 @@ startBtn.addEventListener("click", function (event) {
     }
     gameTime -= 1;
     timerID.textContent = gameTime;
+    // 1000 = 1 second
   }, 1000);
 });
+
+// check answers and track questions
+function checkAndTrack() {
+  //
+}
 
 // var counter = 0  // this var counts the questions
 function startQuiz() {
   // insert first set of questions using for loop
-
   var currentQuestion = questions[counter];
-  var choices = currentQuestion.choices;
-
-  questionTitle.textContent = currentQuestion.title;
-
-  for (var i = 0; i < questions.length; i++) {
+  var questionsArray = questions[counter].choices;
+  // loop through the questions array
+  for (var i = 0; i < questionsArray.length; i++) {
+    var choices = currentQuestion.choices;
     var choice = choices[i];
-    var isCorrect = currentQuestion.answer === choice;
+    var isCorrect = questions[counter]["answer"] === choice;
+    questionTitle.textContent = currentQuestion.title;
 
-    //console.log(counter);
-    //console.log();
-
+    // NOTE: counter var is set to 4
     // prettier-ignore
     choicesOutput.insertAdjacentHTML("beforeend", `
-    <button data-correct=${isCorrect[i]}>${choices}</button>`);
-
-    // why Q is not iterating? O_o
+      <button data-correct=${isCorrect}>${choice}</button>`);
   }
 }
 startQuiz();
