@@ -21,17 +21,19 @@ var startBtn = document.querySelector("#start");
 var timerID = document.getElementById("time");
 var gameTime = 60; // 60 seconds
 
+// START OF CODE:
+
 // Timer + hide start screen
 startBtn.addEventListener("click", function (event) {
   // hides start screen
   startScreen.setAttribute("class", "hide");
   // starts timer
-  var countdown = setInterval(function (e) {
+  var countdown = setInterval(function () {
     if (gameTime <= 0) {
       clearInterval(countdown);
       gameTime += 1; // fixes -1 on the timer
     }
-    gameTime -= 1;
+    gameTime -= 1; // decreases time by 1 second every second
     timerID.textContent = gameTime;
     // 1000 = 1 second
   }, 1000);
@@ -46,26 +48,30 @@ function checkAndTrack() {
       //
       //console.log("hello");
       var btnClick = event.target.textContent;
-      var isCorrect = questions[counter]["answer"];
-        if(btnClick === isCorrect) {
+      var correctAnswer = questions[counter]["answer"];
+      
+      // TO-DO: reset the buttons at the end 
+        if(btnClick === correctAnswer) {
           // add +5 seconds to timer, increment score and counter
           console.log("is correct"); 
           gameTime += 5; 
-          counter++;
+          counter += 1;
           score += 1;
           console.log(score); 
-
+          startQuiz()
+          
         }
-        else if(btnClick !== isCorrect) {
+        else if(btnClick !== correctAnswer) {
           console.log("is NOT correct"); 
           gameTime -= 5; 
-          counter++;
+          counter+= 1;
           score -= 1;
           console.log(score); 
-
         }
     });
 }
+
+// TO-DO: display answer message for correct/incorrect answer
 
 // var counter = 0  // this var counts the questions
 function startQuiz() {
@@ -73,6 +79,7 @@ function startQuiz() {
   var currentQuestion = questions[counter];
   var questionsArray = questions[counter].choices;
   // loop through the questions array
+  //for (var i = 0; i < questionsArray.length; i++) {
   for (var i = 0; i < questionsArray.length; i++) {
     var choices = currentQuestion.choices;
     var choice = choices[i];
@@ -80,10 +87,11 @@ function startQuiz() {
     questionTitle.textContent = currentQuestion.title;
 
     // NOTE: counter var is set to 4
+
     // prettier-ignore
     choicesOutput.insertAdjacentHTML("beforeend", `
-      <button data-correct=${isCorrect}>${choice}</button>`);
+    <button data-correct=${isCorrect}>${choice}</button>`);
   }
 }
-startQuiz();
 checkAndTrack();
+startQuiz();
