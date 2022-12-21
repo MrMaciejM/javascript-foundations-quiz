@@ -39,44 +39,57 @@ startBtn.addEventListener("click", function (event) {
   }, 1000);
 });
 
-// check answers and track questions
+// check answers, show and hide questions
 function checkAndTrack() {
   // will loop in startQuiz
-  // <button data-correct="false">array</button>
-  // choicesOutput is the parent div
   // prettier-ignore
   choicesOutput.addEventListener("click", function (event) {
-      //
-      //console.log("hello");
       var btnClick = event.target.textContent;
       var correctAnswer = questions[counter]["answer"];
       var hideQuestions = document.querySelectorAll(`.answBtns${counter}`)
-      //console.log(event.target)
-      
-      // TO-DO: reset the buttons at the end 
+      var lastButtons = document.querySelectorAll(".answBtns"); 
+      //console.log(event.target) 
+
+        // Correct choices
         if(btnClick === correctAnswer) {
+          score += 1;         
           // add +5 seconds to timer, increment score and counter
-          //console.log("is correct"); 
           gameTime += 5; 
-          counter += 1;
-          score += 1;
+          if(counter < 4) {
+            counter+= 1;
+          } else if (counter >= 4) {
+            counter+= 1; // increments counter to hide buttons at the end 
+            questionTitle.setAttribute("class", "hide");
+            for(var i = 0; i < lastButtons.length; i++) {
+              lastButtons[i].setAttribute("class", "hide");
+            }
+            // show end screen
+            endScreen(); 
+          }
           for(var i = 0; i < hideQuestions.length; i++) {
             hideQuestions[i].setAttribute("class", "hide")
-          }
-          
-          // last counter = 5  
-          startQuiz()
-          
+          }            
+          startQuiz()          
         }
+
+        // Incorrect choices
         else if(btnClick !== correctAnswer) {
-          console.log("is NOT correct"); 
-          gameTime -= 5; 
-          counter+= 1;
           score -= 1;
+          gameTime -= 5; 
+          if(counter < 4) {
+            counter+= 1;
+          } else if (counter >= 4) {
+            counter+= 1; // increments counter to hide buttons at the end 
+            questionTitle.setAttribute("class", "hide");
+            for(var i = 0; i < lastButtons.length; i++) {
+              lastButtons[i].setAttribute("class", "hide");
+            }
+            // show end screen
+            endScreen(); 
+          }          
           for(var i = 0; i < hideQuestions.length; i++) {
             hideQuestions[i].setAttribute("class", "hide")
-          }
-          //console.log(score); 
+          }             
           startQuiz()
         }
     });
@@ -93,6 +106,9 @@ function startQuiz() {
   // insert first set of questions using for loop
   var currentQuestion = questions[counter];
   var questionsChoices = questions[counter]["choices"]; // working copy
+  //var questionsChoices = questions[counter]["choices"]; // working copy
+  //console.log(questions[4]);
+
   //console.log(questions[0]); // 0 = 1st object item
   //console.log(questions[0]["choices"]); // second integer NOT working here
 
@@ -104,7 +120,7 @@ function startQuiz() {
     questionTitle.textContent = currentQuestion.title;
     // NOTE: counter var is set to ?
 
-    console.log(counter); // 0
+    //console.log(counter); // 0
     // prettier-ignore
     choicesOutput.insertAdjacentHTML("beforeend", `
       <button class="answBtns answBtns${counter}" data-correct=${isCorrect}>${choice}</button>`);
@@ -112,5 +128,32 @@ function startQuiz() {
   }
 }
 
+function endScreen() {
+  var endScreen = document.getElementById("end-screen");
+  var textScore = document.getElementById("final-score");
+  endScreen.removeAttribute("class", "hide");
+  textScore.textContent = score;
+
+  // save scores to localStorage
+  // get input box
+  // setup listener on submit
+  // convert and parse through JSON, then stringify on storing
+  var submitBtn = document.getElementById("submit");
+  var input = document.getElementById("initials");
+  submitBtn.addEventListener("click", function (e) {
+    // check for empty string
+    var initials = input.value.trim();
+    if (initials === "") {
+      return;
+    }
+
+    saveScores();
+    //console.log(getTally);
+    //console.log(scoresTally);
+    //console.log(currentTally); null
+  });
+}
+
 checkAndTrack();
 startQuiz();
+endScreen();

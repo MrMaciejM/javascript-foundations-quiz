@@ -32,6 +32,6 @@ var questions = [
     answer: "infinite loop & nothing",
   },
 ];
-
+// 5 questions
 var counter = 0;
 //var testCounter = 1;
