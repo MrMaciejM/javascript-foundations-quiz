@@ -1,6 +1,8 @@
 body {
   font-family: Arial;
   font-size: 120%;
+  /* REMOVE BACKGROUND COLOR AFTER TESTING  */
+  background-color: gray;
 }
 
 a {
@@ -60,7 +62,7 @@ li:nth-child(odd) {
 }
 
 .hide {
-  display: none;
+  display: none !important;
 }
 .hide-endscreen {
   display: none;

@@ -34,3 +34,4 @@ var questions = [
 ];
 
 var counter = 0;
+//var testCounter = 1;

@@ -43,21 +43,28 @@ startBtn.addEventListener("click", function (event) {
 function checkAndTrack() {
   // will loop in startQuiz
   // <button data-correct="false">array</button>
+  // choicesOutput is the parent div
   // prettier-ignore
   choicesOutput.addEventListener("click", function (event) {
       //
       //console.log("hello");
       var btnClick = event.target.textContent;
       var correctAnswer = questions[counter]["answer"];
+      var hideQuestions = document.querySelectorAll(`.answBtns${counter}`)
+      //console.log(event.target)
       
       // TO-DO: reset the buttons at the end 
         if(btnClick === correctAnswer) {
           // add +5 seconds to timer, increment score and counter
-          console.log("is correct"); 
+          //console.log("is correct"); 
           gameTime += 5; 
           counter += 1;
           score += 1;
-          console.log(score); 
+          for(var i = 0; i < hideQuestions.length; i++) {
+            hideQuestions[i].setAttribute("class", "hide")
+          }
+          
+          // last counter = 5  
           startQuiz()
           
         }
@@ -66,32 +73,44 @@ function checkAndTrack() {
           gameTime -= 5; 
           counter+= 1;
           score -= 1;
-          console.log(score); 
+          for(var i = 0; i < hideQuestions.length; i++) {
+            hideQuestions[i].setAttribute("class", "hide")
+          }
+          //console.log(score); 
+          startQuiz()
         }
     });
 }
 
 // TO-DO: display answer message for correct/incorrect answer
+function displayAnsw() {
+  // displays "correct/wrong" based on user answer
+}
 
 // var counter = 0  // this var counts the questions
+
 function startQuiz() {
   // insert first set of questions using for loop
   var currentQuestion = questions[counter];
-  var questionsArray = questions[counter].choices;
-  // loop through the questions array
+  var questionsChoices = questions[counter]["choices"]; // working copy
+  //console.log(questions[0]); // 0 = 1st object item
+  //console.log(questions[0]["choices"]); // second integer NOT working here
+
   //for (var i = 0; i < questionsArray.length; i++) {
-  for (var i = 0; i < questionsArray.length; i++) {
+  for (var i = 0; i < questionsChoices.length; i++) {
     var choices = currentQuestion.choices;
     var choice = choices[i];
     var isCorrect = questions[counter]["answer"] === choice;
     questionTitle.textContent = currentQuestion.title;
+    // NOTE: counter var is set to ?
 
-    // NOTE: counter var is set to 4
-
+    console.log(counter); // 0
     // prettier-ignore
     choicesOutput.insertAdjacentHTML("beforeend", `
-    <button data-correct=${isCorrect}>${choice}</button>`);
+      <button class="answBtns answBtns${counter}" data-correct=${isCorrect}>${choice}</button>`);
+    // console.log(i); // 0 1 2 3
   }
 }
+
 checkAndTrack();
 startQuiz();
