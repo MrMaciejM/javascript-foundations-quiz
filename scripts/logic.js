@@ -21,6 +21,8 @@ var startBtn = document.querySelector("#start");
 var timerID = document.getElementById("time");
 var gameTime = 60; // 60 seconds
 
+var correctSound = new Audio("assets/sfx/correct.wav");
+var incorrectSound = new Audio("assets/sfx/incorrect.wav");
 // START OF CODE:
 
 // Timer + hide start screen
@@ -52,12 +54,15 @@ function checkAndTrack() {
 
         // Correct choices
         if(btnClick === correctAnswer) {
+          showCorrect();
+          correctSound.play();
           score += 1;         
           // add +5 seconds to timer, increment score and counter
           gameTime += 5; 
           if(counter < 4) {
             counter+= 1;
           } else if (counter >= 4) {
+            showIncorrect(); 
             counter+= 1; // increments counter to hide buttons at the end 
             questionTitle.setAttribute("class", "hide");
             for(var i = 0; i < lastButtons.length; i++) {
@@ -74,6 +79,7 @@ function checkAndTrack() {
 
         // Incorrect choices
         else if(btnClick !== correctAnswer) {
+          incorrectSound.play()
           score -= 1;
           gameTime -= 5; 
           if(counter < 4) {
@@ -96,8 +102,26 @@ function checkAndTrack() {
 }
 
 // TO-DO: display answer message for correct/incorrect answer
-function displayAnsw() {
-  // displays "correct/wrong" based on user answer
+function showCorrect() {
+  // displays "correct" paragraph based on user answer
+  questionWrap.insertAdjacentHTML(
+    "afterend",
+    `<p id="showCorrect">Correct!</p>`
+  );
+  setTimeout(function () {
+    var showCorrect = document.getElementById("showCorrect");
+    showCorrect.setAttribute("class", "hide");
+  }, 1200);
+}
+function showIncorrect() {
+  questionWrap.insertAdjacentHTML(
+    "afterend",
+    `<p id="showIncorrect">Correct!</p>`
+  );
+  setTimeout(function () {
+    var showIncorrect = document.getElementById("showIncorrect");
+    showIncorrect.setAttribute("class", "hide");
+  }, 1200);
 }
 
 // var counter = 0  // this var counts the questions
