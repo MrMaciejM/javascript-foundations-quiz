@@ -101,3 +101,20 @@ button {
 h2 {
   text-align: center;
 }
+
+.score-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+  margin: 0 auto;
+  margin-top: 2rem;
+  justify-content: center;
+  align-items: center;
+  color: purple;
+  font-weight: 600;
+  font-size: 1.2rem;
+}
+.score-wrapper p {
+  margin: 0;
+  margin-top: 1rem;
+}
