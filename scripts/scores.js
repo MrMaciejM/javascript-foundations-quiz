@@ -3,7 +3,7 @@
 // player's score
 var score = 0;
 var input = document.getElementById("initials");
-
+var scoreWrapper = document.getElementById("score-wrapper");
 tallyTest = [
   {
     playerName: "",
@@ -18,16 +18,13 @@ if (getTally === null) {
 }
 
 function saveScores() {
-  // getTally = parsed getItem localStorage
   var scoreArr = getTally; // [{0:{name, score:}}]
   var getName = input.value.trim();
-
   scoreArr.push({ playerName: getName, points: score });
   localStorage.setItem("userScores", JSON.stringify(scoreArr));
-
   input.value = "";
 }
-var scoreWrapper = document.getElementById("score-wrapper");
+
 function displayScores() {
   var getTally = JSON.parse(localStorage.getItem("userScores"));
 
@@ -46,7 +43,6 @@ function clearScores() {
   clearBtn.addEventListener("click", function (e) {
     localStorage.clear();
     document.location.reload();
-
     scoreWrapper.remove();
   });
 }

@@ -1,10 +1,3 @@
-/* Personal Notes 
-// you need to convert the object in user_data into string first via JSON.stringify(data), then convert it back using JSON.parse()
-
-//var userData = JSON.parse(localStorage.getItem("user_data"));
-//console.log(userData);
-*/
-
 var startWrapper = document.querySelector("#start-screen");
 
 // questions div
@@ -29,6 +22,10 @@ var incorrectSound = new Audio("assets/sfx/incorrect.wav");
 startBtn.addEventListener("click", function (event) {
   // hides start screen
   startScreen.setAttribute("class", "hide");
+
+  // show questions
+  questionWrap.removeAttribute("class", "hide");
+
   // starts timer
   var countdown = setInterval(function () {
     if (gameTime <= 0) {
@@ -43,14 +40,12 @@ startBtn.addEventListener("click", function (event) {
 
 // check answers, show and hide questions
 function checkAndTrack() {
-  // will loop in startQuiz
   // prettier-ignore
   choicesOutput.addEventListener("click", function (event) {
       var btnClick = event.target.textContent;
       var correctAnswer = questions[counter]["answer"];
       var hideQuestions = document.querySelectorAll(`.answBtns${counter}`)
       var lastButtons = document.querySelectorAll(".answBtns"); 
-      //console.log(event.target) 
 
         // Correct choices
         if(btnClick === correctAnswer) {
@@ -60,11 +55,11 @@ function checkAndTrack() {
           // add +5 seconds to timer, increment score and counter
           gameTime += 5; 
           if(counter < 4) {
-            counter+= 1;
-          } else if (counter >= 4) {
-            showIncorrect(); 
+            counter+= 1; // ensures counter is incremented correctly
+          } else if (counter >= 4) {            
             counter+= 1; // increments counter to hide buttons at the end 
             questionTitle.setAttribute("class", "hide");
+            // loops through last set of choice buttons and hides them
             for(var i = 0; i < lastButtons.length; i++) {
               lastButtons[i].setAttribute("class", "hide");
             }
@@ -79,6 +74,7 @@ function checkAndTrack() {
 
         // Incorrect choices
         else if(btnClick !== correctAnswer) {
+          showIncorrect(); 
           incorrectSound.play()
           score -= 1;
           gameTime -= 5; 
@@ -101,7 +97,7 @@ function checkAndTrack() {
     });
 }
 
-// TO-DO: display answer message for correct/incorrect answer
+//displays answer message for correct/incorrect answer
 function showCorrect() {
   // displays "correct" paragraph based on user answer
   questionWrap.insertAdjacentHTML(
@@ -111,40 +107,30 @@ function showCorrect() {
   setTimeout(function () {
     var showCorrect = document.getElementById("showCorrect");
     showCorrect.setAttribute("class", "hide");
-  }, 1200);
+  }, 1000);
 }
 function showIncorrect() {
   questionWrap.insertAdjacentHTML(
     "afterend",
-    `<p id="showIncorrect">Correct!</p>`
+    `<p id="showIncorrect">Incorrect!</p>`
   );
   setTimeout(function () {
     var showIncorrect = document.getElementById("showIncorrect");
     showIncorrect.setAttribute("class", "hide");
-  }, 1200);
+  }, 1000);
 }
-
-// var counter = 0  // this var counts the questions
 
 function startQuiz() {
   // insert first set of questions using for loop
   var currentQuestion = questions[counter];
-  var questionsChoices = questions[counter]["choices"]; // working copy
-  //var questionsChoices = questions[counter]["choices"]; // working copy
-  //console.log(questions[4]);
+  var questionsChoices = questions[counter]["choices"];
 
-  //console.log(questions[0]); // 0 = 1st object item
-  //console.log(questions[0]["choices"]); // second integer NOT working here
-
-  //for (var i = 0; i < questionsArray.length; i++) {
   for (var i = 0; i < questionsChoices.length; i++) {
     var choices = currentQuestion.choices;
     var choice = choices[i];
     var isCorrect = questions[counter]["answer"] === choice;
     questionTitle.textContent = currentQuestion.title;
-    // NOTE: counter var is set to ?
 
-    //console.log(counter); // 0
     // prettier-ignore
     choicesOutput.insertAdjacentHTML("beforeend", `
       <button class="answBtns answBtns${counter}" data-correct=${isCorrect}>${choice}</button>`);
@@ -158,10 +144,6 @@ function endScreen() {
   endScreen.removeAttribute("class", "hide");
   textScore.textContent = score;
 
-  // save scores to localStorage
-  // get input box
-  // setup listener on submit
-  // convert and parse through JSON, then stringify on storing
   var submitBtn = document.getElementById("submit");
   var input = document.getElementById("initials");
   submitBtn.addEventListener("click", function (e) {
@@ -170,14 +152,9 @@ function endScreen() {
     if (initials === "") {
       return;
     }
-
     saveScores();
-    //console.log(getTally);
-    //console.log(scoresTally);
-    //console.log(currentTally); null
   });
 }
 
 checkAndTrack();
 startQuiz();
-endScreen();
