@@ -28,7 +28,8 @@ startBtn.addEventListener("click", function (event) {
 
   // starts timer
   var countdown = setInterval(function () {
-    if (gameTime <= 0) {
+    if (gameTime <= 0 || counter === 5) {
+      gameTime = 0;
       clearInterval(countdown);
       gameTime += 1; // fixes -1 on the timer
     }
