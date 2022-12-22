@@ -77,7 +77,7 @@ function checkAndTrack() {
           showIncorrect(); 
           incorrectSound.play()
           score -= 1;
-          gameTime -= 5; 
+          gameTime -= 10; 
           if(counter < 4) {
             counter+= 1;
           } else if (counter >= 4) {
