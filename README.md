@@ -10,8 +10,10 @@ The challenge was elevated, and designed to push our coding abilities and utilis
 
 The following screenshots show completed challenge.
 
-![](assets/questions-quiz.png)
+![](assets/question-quiz.png)
+
 ![](assets/quiz-initials.png)
+
 ![](assets/quiz-scores.png)
 
 ## Links
